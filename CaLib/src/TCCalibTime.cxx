@@ -194,7 +194,7 @@ void TCCalibTime::Fit(Int_t elem)
         if (this->InheritsFrom("TCCalibTAPSTime"))
         {
 	    fFitFunc->SetParLimits(4, 0.001, 1);                  
-            range = 3;
+            range = 100;
             factor = 1.5;
         }
         if (this->InheritsFrom("TCCalibPIDTime"))
@@ -207,9 +207,9 @@ void TCCalibTime::Fit(Int_t elem)
         }
         if (this->InheritsFrom("TCCalibTaggerTime"))
         {
-            range = 5;
+            range = 20;
             factor = 10;
-	    fFitFunc->SetParLimits(4, 0.01, 2);                  
+	    fFitFunc->SetParLimits(4, 0.01, 7);                  
         }
 
         // first iteration

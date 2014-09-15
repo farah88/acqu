@@ -15,14 +15,16 @@
 
 #include "TFile.h"
 #include "TList.h"
-#include "TCReadARCalib.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCReadARCalib.h"
 #include "TCanvas.h"
 #include "TF1.h"
 #include "TH1.h"
 #include "TSystem.h"
-#include "TCMySQLManager.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCMySQLManager.h"
 #include "TLine.h"
 #include "TGraph.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCFitTools.h"
+
 
 
 class TCReadARCalib;
@@ -49,7 +51,7 @@ void CheckPedestals(const Char_t* loc)
     for (Int_t i = 0; i < nCh; i++) pedPos[i] = new Double_t[nRuns];
 
     // open the output files
-    TFile* fROOTout = new TFile("/tmp/ped.root", "RECREATE");
+    TFile* fROOTout = new TFile("/hiskp2/afzal/Mainz/ped_veto.root", "RECREATE");
 
     // create directories
     for (Int_t i = 0; i < nCh; i++)
@@ -154,33 +156,22 @@ void TAPSPed()
     Char_t tmp[256];
     
     // load CaLib
-    gSystem->Load("libCaLib.so");
+    gSystem->Load("/disk/user/afzal/Mainz/acqu/build/lib/libCaLib.so");
     
     // general configuration
     Bool_t watch = kFALSE;
     const Char_t* data = "Data.TAPS.LG.E0";
     const Char_t* elemDesc = "Element:";
-    //const Char_t* elemDesc = "TAPSSG:";
+//     const Char_t* elemDesc = "TAPSSG:";
     Double_t yMin = 110;
     Double_t yMax = 160;
 
-    // configuration (December 2007)
-    //const Char_t calibration[] = "LD2_Dec_07";
-    //const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Dec_07/AR/out/ADC";
-    //const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/Dec_07/TAPS/BaF2.dat";
-    //const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/Dec_07/TAPS/Veto.dat";
+    // configuration (Nov 2013)
+    const Char_t calibration[] = "2013_11_G-E_Linturi";
+    const Char_t* fLoc = "/hiskp2/afzal/Mainz/Nov13/calibration/";
+//     const Char_t* fAR = "/disk/user/afzal/Mainz/acqu/acqu_user/data/TAPS/TAPS_BaF2-PbWO4.dat";
+    const Char_t* fAR = "/disk/user/afzal/Mainz/acqu/acqu_user/data/TAPS/TAPS_Veto.dat";
 
-    // configuration (February 2009)
-    //const Char_t calibration[] = "LD2_Feb_09";
-    //const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Feb_09/AR/out/ADC";
-    //const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/Feb_09/TAPS/BaF2_PWO.dat";
-    //const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/Feb_09/TAPS/Veto.dat";
-    
-    // configuration (May 2009)
-    const Char_t calibration[] = "LD2_May_09";
-    const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/May_09/AR/out/ADC";
-    const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/May_09/TAPS/BaF2_PWO.dat";
-    //const Char_t* fAR = "/usr/users/werthm/AcquRoot/acqu/acqu/data/May_09/TAPS/Veto.dat";
 
     // read the calibration file with the correct element identifier
     gReadAR = new TCReadARCalib(fAR, kFALSE, elemDesc);

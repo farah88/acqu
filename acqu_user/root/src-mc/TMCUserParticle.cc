@@ -12,6 +12,7 @@
 // Users can redefine the behaviour of TMCParticle here
 
 #include "TMCUserParticle.h"
+#include "/disk/user/afzal/Mainz/acqu/acqu_core/AcquMC/src/TMCParticle.h"
 
 ClassImp(TMCUserParticle)
 

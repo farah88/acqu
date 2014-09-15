@@ -13,7 +13,7 @@
 
 #ifndef __TMCUserParticle_h__
 #define __TMCUserParticle_h__
-
+#include "TRandom.h"
 #include "TMCParticle.h"
 //#include "TDatabasePDG.h"
 

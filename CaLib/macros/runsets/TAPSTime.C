@@ -11,13 +11,28 @@
 // Make run sets depending on the stability in time of a calibration.   //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCMySQLManager.h"
+#include "TLine.h"
+#include "TGraph.h"
+// 
+// 
+// 
+#include "TFile.h"
+// #include "TList.h"
+#include "TCanvas.h"
+#include "TF1.h"
+#include "TH1.h"
+#include "TH2.h"
+// #include "TSystem.h"
+#include <iostream>
+#include <stdio.h>
 
 
 TCanvas* gCFit;
 TH1* gHOverview;
 TH1* gH;
 TH2* gH2;
-TFile* gFile;
+TFile* f1;
 TF1* gFitFunc;
 TLine* gLine;
 
@@ -82,7 +97,7 @@ void TAPSTime()
     Char_t tmp[256];
     
     // load CaLib
-    gSystem->Load("libCaLib.so");
+    gSystem->Load("/disk/user/afzal/Mainz/acqu/build/lib/libCaLib.so");
     
     // general configuration
     Bool_t watch = kTRUE;
@@ -97,8 +112,11 @@ void TAPSTime()
     //const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Dec_07/AR/out";
 
     // configuration (February 2009)
-    const Char_t calibration[] = "LD2_Feb_09";
-    const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Feb_09/AR/out";
+const Char_t calibration[] = "2013_11_G-E_Linturi";
+
+const Char_t* fLoc = "/hiskp2/spieker/Mainz/Calib_Nov13/timecalibration";
+
+	cout<< fLoc<< endl;
     //const Char_t* fLoc = "/Users/fulgur/Desktop/calib/Feb_09";
     
     // configuration (May 2009)
@@ -148,21 +166,25 @@ void TAPSTime()
             // clean-up
             if (gH) delete gH;
             if (gH2) delete gH2;
-            if (gFile) delete gFile;
-            gH = 0;
-            gH2 = 0;
-            gFile = 0;
+            if (f1) delete f1;
+            gH = NULL;
+            gH2 = NULL;
+            f1 = NULL;
+
 
             // load ROOT file
-            sprintf(tmp, "%s/ARHistograms_CB_%d.root", fLoc, runs[j]);
-            gFile = new TFile(tmp);
+            sprintf(tmp, "%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]);//runs[j]
+		f1 = new TFile(tmp);
+//             TFile* f1 = new TFile(Form("%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]));
+
+
 
             // check file
-            if (!gFile) continue;
-            if (gFile->IsZombie()) continue;
+            if (!f1) continue;
+            if (f1->IsZombie()) continue;
 
             // load histogram
-            gH2 = (TH2*) gFile->Get(hName);
+            gH2 = (TH2*) f1->Get(hName);
             if (!gH2) continue;
             if (!gH2->GetEntries()) continue;
 
@@ -205,7 +227,7 @@ void TAPSTime()
     // adjust axis
     gHOverview->GetXaxis()->SetRangeUser(first_run-10, last_run+10);
 
-    TFile* fout = new TFile("runset_overview.root", "recreate");
+    TFile* fout = new TFile("/hiskp2/afzal/Mainz/timecal_overview.root", "recreate");
     cOverview->Write();
     delete fout;
 

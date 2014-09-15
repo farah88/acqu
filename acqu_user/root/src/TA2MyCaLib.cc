@@ -878,7 +878,8 @@ void TA2MyCaLib::PostInit()
     if (fCalib_Veto_Time)
     {
         fHCalib_Veto_Time = new TH2F("CaLib_Veto_Time", "CaLib_Veto_Time;Veto time [ns];Veto element", 
-				     1000, -100, 100, fNelemVeto, 0, fNelemVeto);
+				     1000, -200.5, 200.5, fNelemVeto, 0, fNelemVeto);
+
         fHCalib_Veto_Time_Ind = new TH2F("CaLib_Veto_Time_Ind", "CaLib_Veto_Time_Ind;Veto time [ns];Veto element", 
                                      4000, -1000.1, 1000.1, fNelemVeto, 0, fNelemVeto);        
     }

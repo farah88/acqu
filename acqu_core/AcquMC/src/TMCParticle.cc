@@ -24,8 +24,10 @@
 // event generator TMCGenerator
 
 
-#include "TMCParticle.h"
+#include "/disk/user/afzal/Mainz/acqu/acqu_core/AcquMC/src/TMCParticle.h"
 #include "TMCGenerator.h"
+#include "TRandom.h"
+
 //#include "SysUtil.h"
 
 ClassImp(TMCParticle)

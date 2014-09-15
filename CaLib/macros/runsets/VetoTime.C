@@ -11,13 +11,25 @@
 // Make run sets depending on the stability in time of a calibration.   //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
-
+#include "TFile.h"
+#include "TList.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCReadARCalib.h"
+#include "TCanvas.h"
+#include "TF1.h"
+#include "TH1.h"
+#include "TF2.h"
+#include "TH2.h"
+#include "TSystem.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCMySQLManager.h"
+#include "TLine.h"
+#include "TGraph.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCFitTools.h"
 
 TCanvas* gCFit;
 TH1* gHOverview;
 TH1* gH;
 TH2* gH2;
-TFile* gFile;
+TFile* f1;
 TF1* gFitFunc;
 TLine* gLine;
 
@@ -90,8 +102,8 @@ void VetoTime()
     Double_t yMax = 20;
 
     // configuration (December 2007)
-    const Char_t calibration[] = "LD2_Dec_07";
-    const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Dec_07/AR/out";
+    const Char_t calibration[] = "2013_11_G-E_Linturi";
+    const Char_t* fLoc = "/hiskp2/spieker/Mainz/Calib_Nov13/timecalibration";
 
     // configuration (February 2009)
     //const Char_t calibration[] = "LD2_Feb_09";
@@ -144,21 +156,21 @@ void VetoTime()
             // clean-up
             if (gH) delete gH;
             if (gH2) delete gH2;
-            if (gFile) delete gFile;
+            if (f1) delete f1;
             gH = 0;
             gH2 = 0;
-            gFile = 0;
+            f1 = 0;
 
             // load ROOT file
-            sprintf(tmp, "%s/ARHistograms_CB_%d.root", fLoc, runs[j]);
-            gFile = new TFile(tmp);
+            sprintf(tmp, "%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]);
+            f1 = new TFile(tmp);
 
             // check file
-            if (!gFile) continue;
-            if (gFile->IsZombie()) continue;
+            if (!f1) continue;
+            if (f1->IsZombie()) continue;
 
             // load histogram
-            gH2 = (TH2*) gFile->Get(hName);
+            gH2 = (TH2*) f1->Get(hName);
             if (!gH2) continue;
             if (!gH2->GetEntries()) continue;
 
@@ -200,7 +212,7 @@ void VetoTime()
     // adjust axis
     gHOverview->GetXaxis()->SetRangeUser(first_run-10, last_run+10);
 
-    TFile* fout = new TFile("runset_overview.root", "recreate");
+    TFile* fout = new TFile("/hiskp2/afzal/Mainz/Nov13/calibration/time/runset_overview_time_veto.root", "recreate");
     cOverview->Write();
     delete fout;
 

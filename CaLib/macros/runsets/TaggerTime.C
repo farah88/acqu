@@ -12,6 +12,9 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
+// #include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCReadARCalib.h"
+// #include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCFitTools.h"
+
 
 #include "TFile.h"
 #include "TList.h"
@@ -19,13 +22,12 @@
 #include "TF1.h"
 #include "TH2.h"
 #include "TSystem.h"
-#include "TCMySQLManager.h"
+#include "/disk/user/afzal/Mainz/acqu/CaLib/include/TCMySQLManager.h"
 #include "TLine.h"
 #include "TGraph.h"
 
 
 TList* gFiles;
-
 
 //______________________________________________________________________________
 void CheckTime(const Char_t* loc)
@@ -43,8 +45,8 @@ void CheckTime(const Char_t* loc)
     Double_t* runNumbersD = new Double_t[nRuns];
     for (Int_t i = 0; i < nCh; i++) pedPos[i] = new Double_t[nRuns];
 
-    // open the output files
-    TFile* fROOTout = new TFile("/tmp/tagger_time.root", "RECREATE");
+    // open the output gFiles
+    TFile* fROOTout = new TFile("/hiskp2/afzal/Mainz/tagger_time.root", "RECREATE");
 
     // create directories
     for (Int_t i = 0; i < nCh; i++)
@@ -63,7 +65,8 @@ void CheckTime(const Char_t* loc)
 
         // extract run number
         Int_t runNumber;
-        sprintf(t, "%s/ARHistograms_CB_%%d.root", loc);
+        sprintf(t, "%s/ARHistograms_CBTaggTAPS_%%d.root", loc);
+// 	sprintf(t, "/hiskp2/afzal/Mainz/Nov13/calibration/time/it13/ARHistograms_CBTaggTAPS_%d.root", runNumber);
         sscanf(f->GetName(), t, &runNumber);
         runNumbersD[i] = (Double_t)runNumber;
 
@@ -71,7 +74,7 @@ void CheckTime(const Char_t* loc)
 
         fROOTout->cd();
         
-        TH2* h2 = (TH2*) f->Get("CaLib_Tagger_Time");
+        TH2* h2 = (TH2*) f->Get("CaLib_Tagger_Time_Tot_Neut");
 
         // loop over channels
         for (Int_t j = 0; j < nCh; j++)
@@ -168,9 +171,9 @@ void TaggerTime()
     const Char_t* data = "Data.Tagger.T0";
 
     // configuration (December 2007)
-    const Char_t calibration[] = "LD2_Dec_07";
+    const Char_t calibration[] = "2013_11_G-E_Linturi";
     //const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Dec_07/AR/out/tagger_time";
-    const Char_t* fLoc = "/usr/cheetah_scratch0/kaeser/CaLib/Dec_07";
+    const Char_t* fLoc = "/hiskp2/afzal/Mainz/Nov13/calibration/time/it13";
 
     // configuration (February 2009)
     //const Char_t calibration[] = "LD2_Feb_09";
@@ -198,7 +201,7 @@ void TaggerTime()
         for (Int_t j = 0; j < nRuns; j++)
         {
             // load ROOT file
-            sprintf(tmp, "%s/ARHistograms_CB_%d.root", fLoc, runs[j]);
+            sprintf(tmp, "%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]);
             TFile* f = new TFile(tmp);
 
             // check file
