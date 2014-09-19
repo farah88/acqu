@@ -65,7 +65,7 @@ void CheckTime(const Char_t* loc)
 
         // extract run number
         Int_t runNumber;
-        sprintf(t, "%s/ARHistograms_CBTaggTAPS_%%d.root", loc);
+        sprintf(t, "%s/ARHist_CBTaggTAPS_%%d.root", loc);
 // 	sprintf(t, "/hiskp2/afzal/Mainz/Nov13/calibration/time/it13/ARHistograms_CBTaggTAPS_%d.root", runNumber);
         sscanf(f->GetName(), t, &runNumber);
         runNumbersD[i] = (Double_t)runNumber;
@@ -173,7 +173,7 @@ void TaggerTime()
     // configuration (December 2007)
     const Char_t calibration[] = "2013_11_G-E_Linturi";
     //const Char_t* fLoc = "/usr/puma_scratch0/werthm/A2/Dec_07/AR/out/tagger_time";
-    const Char_t* fLoc = "/hiskp2/afzal/Mainz/Nov13/calibration/time/it13";
+    const Char_t* fLoc = "/hiskp2/afzal/Mainz/Nov13/calibration/time/it16";
 
     // configuration (February 2009)
     //const Char_t calibration[] = "LD2_Feb_09";
@@ -201,7 +201,7 @@ void TaggerTime()
         for (Int_t j = 0; j < nRuns; j++)
         {
             // load ROOT file
-            sprintf(tmp, "%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]);
+            sprintf(tmp, "%s/ARHist_CBTaggTAPS_%d.root", fLoc, runs[j]);
             TFile* f = new TFile(tmp);
 
             // check file
