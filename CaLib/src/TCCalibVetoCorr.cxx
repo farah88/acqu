@@ -125,79 +125,8 @@ void TCCalibVetoCorr::Calculate(Int_t elem)
         // check if veto in front of element has maximum hits
         //
 
-        Int_t offset;
-	if(elem>=0 && elem<=72){
-		if(elem<=11){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(0+i)){offset=0+i;}
-				if(elem==(4+i)){offset=3+i;}
-				if(elem==(8+i)){offset=6+i;}
-			}
-		}
-		  if(elem>=12)offset=9;
-	  }
-
-	if(elem>=73 && elem<=145){
-
-		if(elem<=84){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(73+i)){offset=9+i;}
-				if(elem==(77+i)){offset=12+i;}
-				if(elem==(81+i)){offset=15+i;}
-			}
-		}
-	  if(elem>=85)offset=18;
-	}
-
-        if(elem>=146 && elem<=218){
-		if(elem<=157){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(146+i)){offset=18+i;}
-				if(elem==(150+i)){offset=21+i;}
-				if(elem==(154+i)){offset=24+i;}
-			}
-		}
-	  if(elem>=158)offset=27;
-	  }
-
-         if(elem>=219 && elem<=291){
-		if(elem<=230){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(219+i)){offset=27+i;}
-				if(elem==(223+i)){offset=30+i;}
-				if(elem==(227+i)){offset=33+i;}
-			}
-		}
-	  if(elem>=231)offset=36;
-	  }
-
-         if(elem>=292 && elem<=364){
-		if(elem<=303){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(292+i)){offset=36+i;}
-				if(elem==(296+i)){offset=39+i;}
-				if(elem==(300+i)){offset=42+i;}
-			}
-		}
-	  if(elem>=304)offset=45;
-	  }
-
-	 if(elem>=365 && elem<=437){
-		if(elem<=376){
-			for(Int_t i=0;i<=3;i++){  
-				if(elem==(365+i)){offset=45+i;}
-				if(elem==(369+i)){offset=48+i;}
-				if(elem==(373+i)){offset=51+i;}
-			}
-		}
-	  if(elem>=377)offset=54;
-	  }
-
-
-
         Bool_t inFront = kFALSE;
-        if (fMax == (offset+TCUtils::GetVetoInFrontOfElement(elem, maxTAPS))) inFront = kTRUE;
-        std::cout << TCUtils::GetVetoInFrontOfElement(elem,maxTAPS) << "\t" << elem << "\t" << offset<<std::endl;
+ 
         // user info
         if (inFront) 
         {
@@ -217,7 +146,7 @@ void TCCalibVetoCorr::Calculate(Int_t elem)
         for (Int_t i = 0; i < n->GetNneighbours(); i++)
         {
             // get veto of neighbour
-            Int_t veto = TCUtils::GetVetoInFrontOfElement(n->GetNeighbour(i), maxTAPS)+offset;
+            Int_t veto = TCUtils::GetVetoInFrontOfElement(n->GetNeighbour(i), maxTAPS);
 
             // check this veto
             if (fMax == veto) 
