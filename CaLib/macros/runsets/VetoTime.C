@@ -103,7 +103,7 @@ void VetoTime()
 
     // configuration (December 2007)
     const Char_t calibration[] = "2013_11_G-E_Linturi";
-    const Char_t* fLoc = "/hiskp2/spieker/Mainz/Calib_Nov13/timecalibration";
+    const Char_t* fLoc = "/hiskp2/afzal/Mainz/Nov13/calibration/time/vetocorr";
 
     // configuration (February 2009)
     //const Char_t calibration[] = "LD2_Feb_09";
@@ -162,7 +162,7 @@ void VetoTime()
             f1 = 0;
 
             // load ROOT file
-            sprintf(tmp, "%s/ARHistograms_CBTaggTAPS_%d.root", fLoc, runs[j]);
+            sprintf(tmp, "%s/ARHist_CBTaggTAPS_%d.root", fLoc, runs[j]);
             f1 = new TFile(tmp);
 
             // check file
