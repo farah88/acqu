@@ -60,6 +60,7 @@ enum {
 
 static const Map_t myCaLibConfigKeys[] = {
     // Calibration configuration keys
+
     {"CaLib-Target-Position:"         ,   ECALIB_TARGET_POS           },        // target position
     {"CaLib-CB-Energy:"               ,   ECALIB_CB_ENERGY            },        // CB energy calibration
     {"CaLib-CB-Quad:"                 ,   ECALIB_CB_QUAD              },        // CB quadratic energy correction
@@ -139,6 +140,12 @@ private:
     Double_t fCalib_CB_RiseTime_Pi0_Max;                    // upper bound of the pi0 invariant mass cut
     TH2* fHCalib_CB_RiseTime;                               // CB time vs element
     
+    // ----------------------------------- CB rise time ------------------------------------
+    Int_t fCalib_CB_RiseTime; // CB time calibration toggle
+    Double_t fCalib_CB_RiseTime_Pi0_Min; // lower bound of the pi0 invariant mass cut
+    Double_t fCalib_CB_RiseTime_Pi0_Max; // upper bound of the pi0 invariant mass cut
+    TH2* fHCalib_CB_RiseTime; // CB time vs element
+
     // ----------------------------------- CB time walk ------------------------------------ 
     Int_t fCalib_CB_Walk;                                   // CB time walk calibration toggle
     Double_t fCalib_CB_Walk_Pi0_Min;                        // lower bound of the pi0 invariant mass cut 
@@ -225,6 +232,7 @@ private:
     TH2** fHCalib_TAPS_Proton_ECorr_Inv;                    // f_corr vs vertex energy for every detector
     TH2* fHCalib_TAPS_Proton_ECorr_Check;                   // checking histogram
  
+
     // -------------------------------------- PID Phi -------------------------------------- 
     Int_t fCalib_PID_Phi;                                   // PID Phi calibration toggle
     TH2* fHCalib_PID_CBPhi_ID;                              // CB cluster Phi vs PID element index
