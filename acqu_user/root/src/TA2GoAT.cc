@@ -48,10 +48,11 @@ TA2GoAT::TA2GoAT(const char* Name, TA2Analysis* Analysis) : TA2AccessSQL(Name, A
                                                                     Mult(0),
                                                                     nTriggerPattern(0),
 																	TriggerPattern(0),
-                                                                    nHelBits(0),	
+                                                                  /*nHelBits(0),	
                                                                     Helicity(0),
                                                                     HelInver(0),
-                                                                    HelADC(0),															
+                                                                    HelADC(0),*/
+								    helicityBit(0),
                                                                     nError(0),
                                                                     ErrModID(0),
                                                                     ErrModIndex(0),
@@ -133,7 +134,7 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 						|| fileName[strlen(fileName)-1]=='\r')
 			fileName[strlen(fileName)-1]='\0';
         return;
-    	case EG_BEAM_HELICITY:
+	/*	case EG_BEAM_HELICITY:
     	    	nHelBits = sscanf(line, "%i%s%s%s%s%s%s%s%s", &HelADC, HelBits[0], HelBits[1], HelBits[2], HelBits[3], HelBits[4], HelBits[5], HelBits[6], HelBits[7]);
     	    	nHelBits--;
     	    	if(nHelBits < 2) Error("SetConfig", "Not enough information to construct beam helicity!");
@@ -150,7 +151,7 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 			}
 			printf("\n");
     	    	}
-	return;
+		return;*/
     	default:
         	TA2AccessSQL::SetConfig(line, key);
     	}
@@ -252,7 +253,8 @@ void    TA2GoAT::PostInit()
 
 	treeTrigger->Branch("ESum", &ESum, "ESum/D");
 	treeTrigger->Branch("Mult", &Mult, "Mult/I");
-	if(nHelBits > 1) treeTrigger->Branch("Helicity", &Helicity, "Helicity/O");
+	treeTrigger->Branch("HelicityBit", &helicityBit, "HelicityBit/b");//James version
+	//if(nHelBits > 1) treeTrigger->Branch("Helicity", &Helicity, "Helicity/O");
 	treeTrigger->Branch("nError", &nError, "nError/I");
 	treeTrigger->Branch("ErrModID", ErrModID, "ErrModID[nError]/I");
 	treeTrigger->Branch("ErrModIndex", ErrModIndex, "ErrModIndex[nError]/I");
@@ -542,7 +544,27 @@ void    TA2GoAT::Reconstruct()
 		ErrCode[i] = Error->fErrCode;
 	}
 
-	if(nHelBits > 1)
+	//James version to get the helicity information:
+    UShort_t  helicityPattern = GetADC()[7];
+    //printf("adc: %u\t%u\t%u\n", helicityPattern, helicityPattern & 2, helicityPattern & 0x0002);
+    if(helicityPattern & 2)
+    {
+        //printf("bad\n");
+        helicityBit = 2;
+    }
+    else
+    {
+        //printf("good  %u\t%u\n", helicityPattern & 0x0001, helicityPattern & 0x0004);
+        if((helicityPattern & 0x0001) == 0 && (helicityPattern & 0x0004) == 0)
+            helicityBit = 0;
+        else if((helicityPattern & 0x0001) == 1 && (helicityPattern & 0x0004) == 4)
+            helicityBit = 1;
+        else
+            helicityBit = 2;
+    }
+
+
+	/*if(nHelBits > 1)
 	{
 		Bool_t HelBit;
 		Helicity = true;
@@ -566,7 +588,7 @@ void    TA2GoAT::Reconstruct()
 				break;
 			}
 		}
-	} 
+	}*/ 
 
         if(fMulti[400])
 	{
