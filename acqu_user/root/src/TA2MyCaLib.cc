@@ -492,6 +492,7 @@ void TA2MyCaLib::PostInit()
     {
         printf("   - CB rise time\n");
         printf("     -> pi0 invariant mass cut     : %8.2f to %8.2f MeV\n", fCalib_CB_RiseTime_Pi0_Min, fCalib_CB_RiseTime_Pi0_Max);
+
     }
     if (fCalib_CB_Walk)         
     {
@@ -607,7 +608,12 @@ void TA2MyCaLib::PostInit()
 					      "CaLib_CB_Quad_Eta_Mean_E;Mean photon energy of #eta [MeV];CB element", 
                                               1000, 0, 1000, fNelemCB, 0, fNelemCB);
     }
-    
+     // prepare for CB rise time calibration
+    if (fCalib_CB_RiseTime)
+    {
+      fHCalib_CB_RiseTime = new TH2F("CaLib_CB_RiseTime", "CaLib_CB_RiseTime;CB cluster time - tagger time [ns];CB element",
+				        1000, -100, 100, fNelemCB, 0, fNelemCB);
+    }
     // prepare for CB time calibration
     if (fCalib_CB_Time)
     {
@@ -744,6 +750,7 @@ void TA2MyCaLib::PostInit()
     // prepare for TAPS LED calibration
     if (fCalib_TAPS_LED)
     {
+
         fHCalib_TAPS_LED_Norm = new TH2F("CaLib_TAPS_LED_Norm", "CaLib_TAPS_LED_Norm;Energy [MeV];TAPS element", 
                                          2000, 0, 2000, fNelemTAPS, 0, fNelemTAPS);
         fHCalib_TAPS_LED_LED1 = new TH2F("CaLib_TAPS_LED_LED1", "CaLib_TAPS_LED_LED1;Energy [MeV];TAPS element", 
@@ -1696,6 +1703,7 @@ void TA2MyCaLib::ReconstructPhysics()
     
     // ------------------------- TAPS quadratic energy correction ------------------------- 
     
+
     if (fCalib_TAPS_Quad)
     {
         // request 2 neutral clusters
@@ -1756,6 +1764,7 @@ void TA2MyCaLib::ReconstructPhysics()
             }
         }
     }
+
     
     
     // ------------------------------- TAPS PSA calibration ------------------------------- 
@@ -1789,6 +1798,7 @@ void TA2MyCaLib::ReconstructPhysics()
     
     // ------------------------------- TAPS LED calibration ------------------------------- 
 
+ 
     if (fCalib_TAPS_LED)
     {
         // check if there was a charged hit in TAPS
