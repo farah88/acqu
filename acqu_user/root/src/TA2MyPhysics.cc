@@ -300,11 +300,13 @@ void TA2MyPhysics::SetConfig(Char_t* line, Int_t key)
         }
         case EMP_BAD_TAPS_CLUSTERS:
         {   
+
             Char_t fileName[256];
 
             // read number and list of bad TAPS cluster centers
             if (sscanf(line, "%s", fileName))
                 fNBadTAPSClusters = TOLoader::LoadBadChannels(gSystem->ExpandPathName(fileName), fBadTAPSClusters);
+
             break;
         }
         case EMP_BAD_PARTICLE_CUTS:
