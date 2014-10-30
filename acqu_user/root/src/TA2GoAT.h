@@ -24,7 +24,7 @@ static const Map_t RootTreeConfigKeys[] = {
     {"RootTree-Output-Folder:"       	, EG_OUTPUT_FOLDER},
     {"RootTree-Input-Name:"           	, EG_INPUT_NAME},
     {"RootTree-File-Name:"           	, EG_FILE_NAME},
-    {"Beam-Helicity:"           	, EG_BEAM_HELICITY},
+    //{"Beam-Helicity:"           	, EG_BEAM_HELICITY},
     // Termination
     {NULL       	 		, -1           }
 };
@@ -98,14 +98,15 @@ private:
     	Int_t 		nTriggerPattern;
 		Int_t* 		TriggerPattern;	
 
-		Int_t  	 	nHelBits;
-		Bool_t  	Helicity;
-		Bool_t  	HelInver;
-		Int_t  	 	HelADC;
+		//Int_t  	 	nHelBits;
+		//Bool_t  	Helicity;
+		//Bool_t  	HelInver;
+		//Int_t  	 	HelADC;
 
-    	Char_t  	HelBits[8][8];
-    	Bool_t  	HelInh[8];
-    	Bool_t  	HelBeam[8];
+		//Char_t  	HelBits[8][8];
+		//Bool_t  	HelInh[8];
+		//Bool_t  	HelBeam[8];
+		UChar_t     helicityBit;
 
     	Int_t 		nError; 	
     	Int_t* 		ErrModID; 	
