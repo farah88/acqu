@@ -159,6 +159,7 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 
 void    TA2GoAT::PostInit()
 {
+
    	Ek		= new Double_t[TA2GoAT_MAX_PARTICLE];
    	Theta		= new Double_t[TA2GoAT_MAX_PARTICLE];
    	Phi		= new Double_t[TA2GoAT_MAX_PARTICLE];
@@ -315,7 +316,7 @@ void    TA2GoAT::Reconstruct()
 			plane 	= fLinPol->GetPolPlane();
 			edge 	= fLinPol->GetEdge();
 			edgeSetting = fLinPol->GetEdgeSetting();
-			treeLinPol->Fill();
+			//	treeLinPol->Fill();
 		}
 	}
 
@@ -623,6 +624,7 @@ void    TA2GoAT::Reconstruct()
 	if(treeTagger)			treeTagger->Fill();
 	if(treeTrigger)  		treeTrigger->Fill();
 	if(treeDetectorHits)	treeDetectorHits->Fill();
+	if(treeLinPol)          treeLinPol->Fill();
 
 	//increment event number
 	eventNumber++;	
