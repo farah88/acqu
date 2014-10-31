@@ -17,6 +17,9 @@
 *.lai
 *.la
 *.a
+*.d
+*.root
+*.log
 
 # CMake
 # only build dirs/symlinks are ignored
