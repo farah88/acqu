@@ -140,11 +140,6 @@ private:
     Double_t fCalib_CB_RiseTime_Pi0_Max;                    // upper bound of the pi0 invariant mass cut
     TH2* fHCalib_CB_RiseTime;                               // CB time vs element
     
-    // ----------------------------------- CB rise time ------------------------------------
-    Int_t fCalib_CB_RiseTime; // CB time calibration toggle
-    Double_t fCalib_CB_RiseTime_Pi0_Min; // lower bound of the pi0 invariant mass cut
-    Double_t fCalib_CB_RiseTime_Pi0_Max; // upper bound of the pi0 invariant mass cut
-    TH2* fHCalib_CB_RiseTime; // CB time vs element
 
     // ----------------------------------- CB time walk ------------------------------------ 
     Int_t fCalib_CB_Walk;                                   // CB time walk calibration toggle
