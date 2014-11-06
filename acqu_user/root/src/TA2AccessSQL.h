@@ -61,7 +61,6 @@ static const Map_t AccessSQLConfigKeys[] = {
 class TA2AccessSQL : public TA2Physics
 {
 private:
-  CaLibReader_t*	fCaLibReader;                           // CaLib reader
   
   Bool_t			CBEnergyPerRunCorrection;
   Double_t		CBEnergyPerRunCorrectionFactor;
@@ -70,6 +69,7 @@ private:
   void 	ApplyCaLib();
   
 protected:
+  CaLibReader_t*	fCaLibReader;                           // CaLib reader
   Int_t			fRunNumber;
   Int_t fAnalysisMode;                                    // analysis mode (raw, MC, ...)
   Bool_t fIsMC;                                           // flag for MC analysis mode

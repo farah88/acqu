@@ -344,7 +344,7 @@ void    TA2GoAT::Reconstruct()
 		else
 		{
         		// Collect Tagger Hits with Multihits
-        		for(UInt_t m=0; m<fNmult; m++)
+        		for(UInt_t m=0; m<(UInt_t)fNmult; m++)
         		{
         			for(UInt_t i=0; i<fLadder->GetNhitsM(m); i++)
         			{

@@ -20,8 +20,8 @@ ClassImp(TA2AccessSQL)
 
 //______________________________________________________________________________
 TA2AccessSQL::TA2AccessSQL(const char* name, TA2Analysis* analysis)	: TA2Physics(name, analysis), 
-  fCaLibReader(0),  
-  CBEnergyPerRunCorrection(false)
+  CBEnergyPerRunCorrection(false),
+  fCaLibReader(0)
 {
   // command-line recognition for SetConfig()
   AddCmdList(AccessSQLConfigKeys);

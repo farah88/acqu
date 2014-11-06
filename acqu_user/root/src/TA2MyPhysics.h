@@ -184,9 +184,6 @@ private:
     TGraph* fPhotonResThetaTAPS;                            // photon theta resolution for TAPS 
     TGraph* fPhotonResPhiTAPS;                              // photon phi resolution for TAPS 
     TGraph* fPhotonResEnergyTAPS;                           // photon energy resolution for TAPS
-
-    // ------------------------------------ CaLib ------------------------------------ 
-    CaLibReader_t* fCaLibReader;                            // CaLib reader
     
     // ------------------------------- Software trigger  ----------------------------- 
     Int_t fTrigTotalMult;                                   // total multiplicity
