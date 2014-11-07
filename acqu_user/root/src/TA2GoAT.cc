@@ -48,11 +48,10 @@ TA2GoAT::TA2GoAT(const char* Name, TA2Analysis* Analysis) : TA2AccessSQL(Name, A
                                                                     Mult(0),
                                                                     nTriggerPattern(0),
 																	TriggerPattern(0),
-                                                                  /*nHelBits(0),	
+                                                                    nHelBits(0),	
                                                                     Helicity(0),
                                                                     HelInver(0),
-                                                                    HelADC(0),*/
-								    helicityBit(0),
+                                                                    HelADC(0),															
                                                                     nError(0),
                                                                     ErrModID(0),
                                                                     ErrModIndex(0),
@@ -134,7 +133,7 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 						|| fileName[strlen(fileName)-1]=='\r')
 			fileName[strlen(fileName)-1]='\0';
         return;
-	/*	case EG_BEAM_HELICITY:
+    	case EG_BEAM_HELICITY:
     	    	nHelBits = sscanf(line, "%i%s%s%s%s%s%s%s%s", &HelADC, HelBits[0], HelBits[1], HelBits[2], HelBits[3], HelBits[4], HelBits[5], HelBits[6], HelBits[7]);
     	    	nHelBits--;
     	    	if(nHelBits < 2) Error("SetConfig", "Not enough information to construct beam helicity!");
@@ -151,7 +150,7 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 			}
 			printf("\n");
     	    	}
-		return;*/
+	return;
     	default:
         	TA2AccessSQL::SetConfig(line, key);
     	}
@@ -159,7 +158,6 @@ void    TA2GoAT::SetConfig(Char_t* line, Int_t key)
 
 void    TA2GoAT::PostInit()
 {
-
    	Ek		= new Double_t[TA2GoAT_MAX_PARTICLE];
    	Theta		= new Double_t[TA2GoAT_MAX_PARTICLE];
    	Phi		= new Double_t[TA2GoAT_MAX_PARTICLE];
@@ -194,6 +192,9 @@ void    TA2GoAT::PostInit()
         ErrModID 	= new Int_t[TA2GoAT_MAX_ERROR];
    	ErrModIndex 	= new Int_t[TA2GoAT_MAX_ERROR];
    	ErrCode 	= new Int_t[TA2GoAT_MAX_ERROR];
+
+	// Default SQL-physics initialisation
+	TA2AccessSQL::PostInit();
 
    	printf("---------\n");
    	printf("Init Tree\n");
@@ -241,21 +242,9 @@ void    TA2GoAT::PostInit()
 	treeTagger->Branch("tagged_ch", tagged_ch, "tagged_ch[nTagged]/I");
 	treeTagger->Branch("tagged_t", tagged_t, "tagged_t[nTagged]/D");
 
-	// Store Lin Pol if class is active
-	if(fLinPol)
-	{
-		treeLinPol = new TTree("treeLinPol", "treeLinPol");		
-		treeLinPol->Branch("plane", &plane, "plane/I");
-		treeLinPol->Branch("edge", &edge, "edge/D");
-		treeLinPol->Branch("edgeSetting", &edgeSetting, "edgeSetting/D");
-		treeLinPol->Branch("polTable", fLinPol->GetPolTable_TC(), "polTable[352]/D");
-		treeLinPol->Branch("enhTable", fLinPol->GetEnhTable_TC(), "enhTable[352]/D");
-	}
-
 	treeTrigger->Branch("ESum", &ESum, "ESum/D");
 	treeTrigger->Branch("Mult", &Mult, "Mult/I");
-	treeTrigger->Branch("HelicityBit", &helicityBit, "HelicityBit/b");//James version
-	//if(nHelBits > 1) treeTrigger->Branch("Helicity", &Helicity, "Helicity/O");
+	if(nHelBits > 1) treeTrigger->Branch("Helicity", &Helicity, "Helicity/O");
 	treeTrigger->Branch("nError", &nError, "nError/I");
 	treeTrigger->Branch("ErrModID", ErrModID, "ErrModID[nError]/I");
 	treeTrigger->Branch("ErrModIndex", ErrModIndex, "ErrModIndex[nError]/I");
@@ -286,20 +275,31 @@ void    TA2GoAT::PostInit()
 	        Char_t str[256];
 		sprintf(str, "Scaler[%d]/i", GetMaxScaler());
 		treeScaler->Branch("Scaler", fScaler, str);
+
+		// Store Lin Pol if class is active
+		if(fLinPol)
+		{
+			treeLinPol = new TTree("treeLinPol", "treeLinPol");		
+			treeLinPol->Branch("plane", &plane, "plane/I");
+			treeLinPol->Branch("edge", &edge, "edge/D");
+			treeLinPol->Branch("edgeSetting", &edgeSetting, "edgeSetting/D");
+			treeLinPol->Branch("polTable", fLinPol->GetPolTable_TC(), "polTable[352]/D");
+			treeLinPol->Branch("enhTable", fLinPol->GetEnhTable_TC(), "enhTable[352]/D");
+		}
+
 	}
 
 	// Define Histograms which will be saved to root tree
 	DefineHistograms();
 
 	gROOT->cd();
-	
 	eventNumber	= 0;	
 
-	// Default SQL-physics initialisation
-        TA2AccessSQL::PostInit();
+   	printf("---------\n");	
+   	printf("Running\n");	
+   	printf("---------\n");
 
 }
-
 void    TA2GoAT::Reconstruct()
 {
 	// Fill standard data check histograms
@@ -309,14 +309,14 @@ void    TA2GoAT::Reconstruct()
 	if((gAR->IsScalerRead()) && (gAR->GetProcessType() != EMCProcess))
 	{
 		eventID	= gAN->GetNDAQEvent();
-		treeScaler->Fill();		
+		if(treeScaler)treeScaler->Fill();		
 		
 		if(fLinPol)
 		{
 			plane 	= fLinPol->GetPolPlane();
 			edge 	= fLinPol->GetEdge();
 			edgeSetting = fLinPol->GetEdgeSetting();
-			//	treeLinPol->Fill();
+			if(treeLinPol)treeLinPol->Fill();
 		}
 	}
 
@@ -545,27 +545,7 @@ void    TA2GoAT::Reconstruct()
 		ErrCode[i] = Error->fErrCode;
 	}
 
-	//James version to get the helicity information:
-    UShort_t  helicityPattern = GetADC()[7];
-    //printf("adc: %u\t%u\t%u\n", helicityPattern, helicityPattern & 2, helicityPattern & 0x0002);
-    if(helicityPattern & 2)
-    {
-        //printf("bad\n");
-        helicityBit = 2;
-    }
-    else
-    {
-        //printf("good  %u\t%u\n", helicityPattern & 0x0001, helicityPattern & 0x0004);
-        if((helicityPattern & 0x0001) == 0 && (helicityPattern & 0x0004) == 0)
-            helicityBit = 0;
-        else if((helicityPattern & 0x0001) == 1 && (helicityPattern & 0x0004) == 4)
-            helicityBit = 1;
-        else
-            helicityBit = 2;
-    }
-
-
-	/*if(nHelBits > 1)
+	if(nHelBits > 1)
 	{
 		Bool_t HelBit;
 		Helicity = true;
@@ -589,7 +569,7 @@ void    TA2GoAT::Reconstruct()
 				break;
 			}
 		}
-	}*/ 
+	} 
 
         if(fMulti[400])
 	{
@@ -624,7 +604,6 @@ void    TA2GoAT::Reconstruct()
 	if(treeTagger)			treeTagger->Fill();
 	if(treeTrigger)  		treeTrigger->Fill();
 	if(treeDetectorHits)	treeDetectorHits->Fill();
-	if(treeLinPol)          treeLinPol->Fill();
 
 	//increment event number
 	eventNumber++;	
@@ -1021,3 +1000,4 @@ void 	TA2GoAT::TriggerHW()
 	if (fADC[0] & 1<<13) Mult++;
  	
 }
+
