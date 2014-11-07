@@ -10,7 +10,7 @@ void dumpLadder(){
   strcpy(runNumString,strrchr(CurrentRunFileName,'_')+1);               //copy file name after last "_"
   strcpy(strstr(runNumString,".dat")," ");                              //replace ".dat" with " "
   sscanf(runNumString,"%d",&RunNumber);                                 //scan the run number
-  sprintf(ScalerFileName,"/disk/user/afzal/Mainz/acqu/acqu_user/data/calib_stuff/LadderScalers_%d.dat",RunNumber);           	//construct outfile names
+  sprintf(ScalerFileName,"/disk/user/afzal/Mainz/acqu/acqu_user/data.2013.11/LadderScalers/LadderScalers_%d.dat",RunNumber);           	//construct outfile names
 
   TH1F *hist = (TH1F*)gDirectory->Get("FPD_ScalerAcc");
   
