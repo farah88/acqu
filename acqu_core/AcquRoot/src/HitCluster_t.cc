@@ -48,14 +48,14 @@ HitCluster_t::HitCluster_t( Char_t* line, UInt_t index, Int_t sizefactor,
 	    hit+56,hit+57,hit+58,hit+59,hit+60,hit+61,hit+62,hit+63 );
 
   // Consistency check...1st hit must be the index
-  if( (n < (fNNearNeighbour + 1)) || (index != *hit) ){
+  if( (n != (fNNearNeighbour + 1)) || (index != *hit) ){
     printf(" Error in nearest neighbour input at line:\n %s\n", line );
     return;
   }
   n -= 2;                         // # neighbours around central element
   fNNeighbour = n;
   fNeighbour = new UInt_t[n];
-  fMaxHits = n * sizefactor;
+  fMaxHits = (n+1) * sizefactor;
   fHits = new UInt_t[ fMaxHits ];
   fHits[0] = ENullHit;
   fNhits = 0;
