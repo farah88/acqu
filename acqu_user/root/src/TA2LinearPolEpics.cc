@@ -75,6 +75,8 @@ TA2LinearPolEpics::TA2LinearPolEpics( const char* name, TA2System* fAnalysis  )
   fIsNewFile = ETrue;			//to begin with it's a new file
   
   fRunNo=0;
+
+  fA2LinPolEpicsIndex = 0;
   
   fDInc = EBufferEnd;		//make all these Buffer ends, 
   fDCoh = EBufferEnd;		//since they don't ever get filled	
@@ -184,6 +186,9 @@ TA2LinearPolEpics::TA2LinearPolEpics( const char* name, TA2System* fAnalysis  )
   fAfterEdge       =  20.0;
   fPolMin          =   0.1;
 
+  // to parse the config files
+  appNRunRanges = 0;
+  fNRunRanges = 0;
 }
 
 
