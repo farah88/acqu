@@ -75,6 +75,8 @@ TA2LinearPolEpics::TA2LinearPolEpics( const char* name, TA2System* fAnalysis  )
   fIsNewFile = ETrue;			//to begin with it's a new file
   
   fRunNo=0;
+
+  fA2LinPolEpicsIndex = 0;
   
   fDInc = EBufferEnd;		//make all these Buffer ends, 
   fDCoh = EBufferEnd;		//since they don't ever get filled	
@@ -184,6 +186,9 @@ TA2LinearPolEpics::TA2LinearPolEpics( const char* name, TA2System* fAnalysis  )
   fAfterEdge       =  20.0;
   fPolMin          =   0.1;
 
+  // to parse the config files
+  appNRunRanges = 0;
+  fNRunRanges = 0;
 }
 
 
@@ -620,6 +625,7 @@ void TA2LinearPolEpics::Reconstruct( ){
       }
       for(int index=0;index<appNRunRanges;index++){ //find the app table for this run
 	if((fRunNo>=appRunRangeMin[index])&&(fRunNo<=appRunRangeMax[index])){
+	  fprintf(stdout,"Found Linpol Run in Range: %d - %d\n",appRunRangeMin[index],appRunRangeMax[index]);
 	  appRunRangeIndex=index;
 	  fNormEnergyIndex=fNormEnergy[index];
 	  fEdgeMinIndex=fEdgeMin[index];
@@ -927,7 +933,11 @@ void TA2LinearPolEpics::ParseMisc(char *line){	// read parameters in the setup f
   switch(type){
   case ELpMiscApp:
     if(sscanf(line, "%*s%d%d%lf%lf%lf%s%s%s%d%s%s%lf",&appRunRangeMin[appNRunRanges],&appRunRangeMax[appNRunRanges],&fNormEnergy[appNRunRanges], &fEdgeMin[appNRunRanges], &fEdgeMax[appNRunRanges],fTaggerName,fLadderName, fRunRefFiles[appNRunRanges],&fNScalerBuffers,fEdgeString,fPlaneString,&fDeadband)!=12){
-      PrintError( line, "Linear Pol app  parameters" );
+	appRunRangeMin[0]=0;      // if no ranges are given in the config file,
+	appRunRangeMax[0]=100000; // use a large range instead
+	if(sscanf(line, "%*s%lf%lf%lf%s%s%s%d%s%s%lf",&fNormEnergy[appNRunRanges],&fEdgeMin[appNRunRanges],&fEdgeMax[appNRunRanges],fTaggerName,fLadderName, fRunRefFiles[appNRunRanges],&fNScalerBuffers,fEdgeString,fPlaneString,&fDeadband)!=10){
+	    PrintError( line, "Linear Pol app  parameters" );
+	}
     }
     fHaveApp=kTRUE;
     fDoingScalers = kTRUE;
