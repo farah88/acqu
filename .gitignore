@@ -24,6 +24,7 @@
 # CMake
 # only build dirs/symlinks are ignored
 /build*
+/acqu_user/temp/
 
 # QtCreator
 CMakeLists.txt.user
