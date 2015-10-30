@@ -22,15 +22,34 @@ void AddBeamtime()
  
     // macro configuration: just change here for your beamtime and leave
     // the other parts of the code unchanged
-    const Int_t firstRun            = 4921;
-    const Int_t lastRun             = 6008;
-    const Char_t calibName[]        = "2014-07_EPT_Prod_Neiser";
-    const Char_t calibDesc[]        = "Calibration for July 2014 EPT Beamtime";
-    const Char_t calibFileTagger[]  = "../acqu_user/data/Detector-EPT.dat";
-    const Char_t calibFileCB[]      = "../acqu_user/data/Detector-NaI.dat";
-    const Char_t calibFileTAPS[]    = "../acqu_user/data/Detector-BaF2-PbWO4.dat";
-    const Char_t calibFilePID[]     = "../acqu_user/data/Detector-PID.dat";
-    const Char_t calibFileVeto[]    = "../acqu_user/data/Detector-Veto.dat";
+//     const Int_t firstRun            = 4921;
+//     const Int_t lastRun             = 6008;
+//     const Char_t calibName[]        = "2014-07_EPT_Prod_Neiser";
+//     const Char_t calibDesc[]        = "Calibration for July 2014 EPT Beamtime";
+//     const Char_t calibFileTagger[]  = "../acqu_user/data/Detector-EPT.dat";
+//     const Char_t calibFileCB[]      = "../acqu_user/data/Detector-NaI.dat";
+//     const Char_t calibFileTAPS[]    = "../acqu_user/data/Detector-BaF2-PbWO4.dat";
+//     const Char_t calibFilePID[]     = "../acqu_user/data/Detector-PID.dat";
+//     const Char_t calibFileVeto[]    = "../acqu_user/data/Detector-Veto.dat";
+//     const Int_t firstRun            = 8607;
+//     const Int_t lastRun             = 9204;
+//     const Char_t calibName[]        = "2015-05_G_E_Proton";
+//     const Char_t calibDesc[]        = "Calibration for May 2015 G/E-Proton Beamtime";
+//     const Char_t calibFileTagger[]  = "../acqu_user/data.2015.05/AR-Analysis-Tagger-Ladder.dat";
+//     const Char_t calibFileCB[]      = "../acqu_user/data.2015.05/AR-Analysis-CB-NaI.dat";
+//     const Char_t calibFileTAPS[]    = "../acqu_user/data.2015.05/AR-Analysis-TAPS-BaF2.dat";
+//     const Char_t calibFilePID[]     = "../acqu_user/data.2015.05/AR-Analysis-CB-PID.dat";
+//     const Char_t calibFileVeto[]    = "../acqu_user/data.2015.05/AR-Analysis-TAPS-Veto.dat";
+
+    const Int_t firstRun            = 11159;
+    const Int_t lastRun             = 12013;
+    const Char_t calibName[]        = "2015-09_G_E_Proton";
+    const Char_t calibDesc[]        = "Calibration for Sep 2015 G/E-Proton Beamtime";
+    const Char_t calibFileTagger[]  = "../acqu_user/data.2015.09/AR-Analysis-Tagger-Ladder.dat";
+    const Char_t calibFileCB[]      = "../acqu_user/data.2015.09/AR-Analysis-CB-NaI.dat";
+    const Char_t calibFileTAPS[]    = "../acqu_user/data.2015.09/AR-Analysis-TAPS-BaF2.dat";
+    const Char_t calibFilePID[]     = "../acqu_user/data.2015.09/AR-Analysis-CB-PID.dat";
+    const Char_t calibFileVeto[]    = "../acqu_user/data.2015.09/AR-Analysis-TAPS-Veto.dat";
 
     // Adding the runfiles should be done by maintainers only!
     // add raw files to the database
